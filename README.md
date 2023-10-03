@@ -1,1 +1,4 @@
-# Django-Social-Auth-
+# Django-Social-Auth
+
+
+![Screenshot](/media/Screenshot.png) 

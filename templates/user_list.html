@@ -1,0 +1,70 @@
+
+{% extends '_base.html' %} {% load socialaccount %}
+
+{% block content %}
+<!-- Banner -->
+<div class="p-10 bg-surface-secondary">
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h6>All social accounts</h6>
+
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-nowrap">
+          <thead class="table-light">
+            <tr>
+             <th scope="col">Profile</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name </th>
+              <th scope="col">username</th>
+              <th scope="col">Provide</th>
+              <th scope="col">is_superuser</th>
+        
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td data-label="Profile">
+                {% if user.socialaccount_set.all %}
+                    {% if user.socialaccount_set.first.provider == 'google' %}
+                    <img alt="Profile Image" src="{{ user.socialaccount_set.first.extra_data.picture }}" class="avatar avatar-sm rounded-circle me-2">
+                    {% elif user.socialaccount_set.first.provider == 'github' %}
+                    <img alt="Profile Image" src="{{ user.socialaccount_set.first.extra_data.avatar_url }}" class="avatar avatar-sm rounded-circle me-2">
+                    {% elif user.socialaccount_set.first.provider == 'twitter' %}
+                    <img alt="Profile Image" src="{{ user.socialaccount_set.first.extra_data.profile_image_url }}" class="avatar avatar-sm rounded-circle me-2">
+                    {% endif %}
+                    
+                {% else %}
+                <img alt="..." src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                {% endif %}
+                
+                <a class="text-heading font-semibold" href="#">
+                    {{ user.first_name }} {{ user.last_name }}
+                </a>
+              </td>
+              <td data-label="First Name">
+                <span>{{ user.first_name }}</span>
+              </td>
+              <td data-label="Last Name">
+                <a class="text-current" href="#"> {{ user.last_name }}</a>
+              </td> 
+              <td data-label="username">
+                <a class="text-current" href="#"> {{ user.username }}</a>
+              </td>  
+                <td data-label="Provide">
+                    <a class="text-current" href="#"> {{ user.socialaccount_set.first.provider }}</a>
+              <td data-label="issuperuser">
+                <input type="checkbox" name="is_superuser" id="is_superuser" {% if user.is_superuser %} checked {% endif %} disabled>
+              </td>  
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
